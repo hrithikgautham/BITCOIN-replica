@@ -18,5 +18,8 @@
     "hash"
   ],
   "author": "Hrithik Gautham TG",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "block-pow": "^1.0.3"
+  }
 }

@@ -5,37 +5,49 @@ const fs = require('fs');
 const fsPromises = fs.promises;
 
 // transactions.map(transaction => [transaction, H256(JSON.stringify(transaction))]);
-
+const noOfTransactions = transactions.length;
 // first create all the file pertaining to each transactions and sstore it in ./transactionHistory directory
 function init(transactions) {
-    transactions.forEach(async transaction => {
+    return new Promise((resolve, reject) => {
+        const hashes = [];
+        transactions.forEach(async transaction => {
         try {
             const content = JSON.stringify(transaction);
             // const compressedContent
             const fileHash = await H256(JSON.stringify(transaction));
-            // hashes.push(fileHash);
+            hashes.push(fileHash);
             const transactionHistoryDirectories = await fsPromises.readdir(path.join(__dirname, "transactionHistory"));
             const matches = transactionHistoryDirectories.filter(transactionHistoryDirectory => transactionHistoryDirectory.startsWith(fileHash.slice(0,2))).length >= 1;
-            console.log("matches", matches);
-            if(!matches) 
+            if(!matches)
                 await fsPromises.mkdir(path.join(__dirname, "transactionHistory", fileHash.slice(0,2)));
-            await fsPromises.writeFile(path.join(__dirname, "transactionHistory", fileHash.slice(0,2), `${fileHash.slice(2, fileHash.length)}.json`), content);
+            await fsPromises.writeFile(path.join(__dirname, "transactionHistory", fileHash.slice(0,2), `${fileHash.slice(2, fileHash.length)}`), content);
+            resolve(hashes);
         }
         catch(err) {
             console.error("Error: ", err);
+            reject();
         }
-    });
+    })});
 }
 
-function generateMerkkleRoot(transactions) {
-    transactions
+function generateMerkleRoot(hashes) {
+    return new Promise(async (resolve, reject) => {
+        while(hashes.length > 1){
+            const appendedHashes = [`${hashes.shift()}.${hashes.shift()}`];
+            const pushBackHash = await init(appendedHashes);
+            hashes.push(pushBackHash[0]);
+        }
+        if(hashes.length == 1)
+            resolve(hashes[0]);
+        else
+            reject();
+    });    
 }
 
-function getMerkleRoot() {
-    init(transactions);
-    // generate merklroot
-    getMerkleRoot(transactions);
-
+async function getMerkleRoot() {
+    const hashes = await init(transactions);
+    const merkleRoot = await generateMerkleRoot(hashes);
+    return merkleRoot;
 }
 
-getMerkleRoot()
+module.exports = { getMerkleRoot, init, noOfTransactions };

@@ -1,4 +1,5 @@
-const H256 = require('./utils/getHash');
+const generateBlock= require('./blockchain');
 
-H256('hrithik').then(data => console.log(data))
-
+generateBlock("hrithik gautham tg")
+    .then(data => console.log(data))
+    .catch(err => console.error("Error: ", err));
