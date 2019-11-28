@@ -1,0 +1,22 @@
+{
+  "name": "bitcoin_project",
+  "version": "1.0.0",
+  "description": "A attempt to replicate the bitcoin network.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hrithikgautham"
+  },
+  "keywords": [
+    "bitcoin",
+    "blockchain",
+    "digital",
+    "sign",
+    "hash"
+  ],
+  "author": "Hrithik Gautham TG",
+  "license": "ISC"
+}
