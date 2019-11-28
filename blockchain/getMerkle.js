@@ -27,12 +27,15 @@ function init(transactions) {
     });
 }
 
-function getMerkleRoot() {
-    const hashes = [];
-    // transactions.map(transaction => [transaction, Promise.resolve(H256(JSON.stringify(transaction)))]);
+function generateMerkkleRoot(transactions) {
+    transactions
+}
 
-    //console.log(transactions);
-    init(transactions, hashes);
+function getMerkleRoot() {
+    init(transactions);
+    // generate merklroot
+    getMerkleRoot(transactions);
+
 }
 
 getMerkleRoot()
