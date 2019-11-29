@@ -10,6 +10,7 @@ const noOfTransactions = transactions.length;
 function init(transactions) {
     return new Promise((resolve, reject) => {
         const hashes = [];
+        // const currentPath = code === 1 ? "transactionHistory" : "blocks"; 
         transactions.forEach(async transaction => {
         try {
             const content = JSON.stringify(transaction);
@@ -24,7 +25,7 @@ function init(transactions) {
             resolve(hashes);
         }
         catch(err) {
-            console.error("Error: ", err);
+            console.error("getMerkle Error: ", err);
             reject();
         }
     })});
