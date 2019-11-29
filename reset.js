@@ -8,12 +8,8 @@ async function reset() {
     files.forEach(async dir => {
         try {
             const dirFiles = await fsPromises.readdir(path.join(__dirname, "blockchain", "transactionHistory", dir))
-            dirFiles.forEach(dirFile => {
-                fs.unlink(path.join(__dirname, "blockchain", "transactionHistory", dir, dirFile), function(err) {
-                    if(err)
-                        throw err;
-                });
-            });
+            for(let i = 0 ; i < dirFiles.length ; i++) 
+                await fsPromises.unlink(path.join(__dirname, "blockchain", "transactionHistory", dir, dirFiles[i]));
             await fsPromises.rmdir(path.join(__dirname, "blockchain", "transactionHistory", dir));
         }
         catch(err) {
