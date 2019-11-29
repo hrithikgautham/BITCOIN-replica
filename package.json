@@ -20,6 +20,6 @@
   "author": "Hrithik Gautham TG",
   "license": "ISC",
   "dependencies": {
-    "block-pow": "^1.0.3"
+    "block-pow": "^1.1.1"
   }
 }

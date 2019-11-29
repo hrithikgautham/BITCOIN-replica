@@ -2,7 +2,7 @@ const { getMerkleRoot, init, noOfTransactions } = require("./getMerkle");
 const { getHash, getSha256 } = require('block-pow');
 // create a block
 
-const prevhash = null;
+let prevhash = null;
 
 async function generateBlock(miner) {
     const currentBlock = {
@@ -10,17 +10,18 @@ async function generateBlock(miner) {
         miner,
         noOfTransactions,
         merkleRoot: await getMerkleRoot(),
-        difficulty: 6,
+        difficulty: 3,
         prevhash
     };
     const {
+        newString, 
         newHash,
         nonce
     } = getHash(getSha256(JSON.stringify(currentBlock), "", ""), currentBlock.difficulty, ".");
     currentBlock.nonce = nonce;
     currentBlock.hash = newHash;
     prevhash = newHash;
-    return { hash: newHash, nonce, currentBlock }
+    return { newString, hash: newHash, nonce, currentBlock }
 }
 // console.log("newhash: ", newHash, "nonce: ", nonce)
 
